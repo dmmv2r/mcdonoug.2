@@ -1,4 +1,4 @@
-all: mcdonoug.2
+all: master palin
 
 mcdonoug.2: master.o
 	gcc -Wall -g master.o -o master
@@ -13,4 +13,4 @@ palin.o: palin.c
 	gcc -Wall -g -c palin.c
 
 clean:
-	rm -rf *o mcdonoug.2
+	rm -rf *o mcdonoug.2 master palin
