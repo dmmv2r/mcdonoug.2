@@ -1,1 +1,16 @@
-README FILE
+Author: Donovan McDonough
+Date: 10/8/20
+
+This program will take in several command line arguments (or else be default) and will determine if the input file contains palindromes.
+
+Must execute command "make" in order to run.
+
+Usage: "./master -h" for help. "-n x" to set total numbers of lines to read. "-s x" to set max number of processes to occur at once. "-t x" to set max program run time. "-i f" to set an input file. Where x is an integer and f is the name of a file.
+
+Problems:
+Some warnings when compiling, program still runs.
+Program currently set up to fork a single line of input into palin.c.
+Cannot get exec to work which is why there is only a single iteration at a time. I do not know what I am doing wrong.
+Shared memory has not been instituted as I have had trouble making exec work properly even without shared memory.
+No signals instituted, they are not needed at this point anyway.
+

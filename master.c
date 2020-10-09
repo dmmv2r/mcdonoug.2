@@ -53,24 +53,76 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	if(!argTotal) {
+	if(!argTotal) { //sets default number of lines to read
 		totalChild = 4;
 	}
-	if(!argMax) {
+	if(!argMax) { //sets default number of processes at one time
 		maxChild = 2;
 	}
-	if(!argTime) {
+	if(!argTime) { //sets default amount of time program is running
 		termTime = 100;
 	}
-	if(!argIn) {
+	if(!argIn) { //sets default input file
 		input = "palin.in";
 	}
 
 	printf("total = %d, max = %d, time = %d, file = %s\n", totalChild, maxChild, termTime, input);
 
-	system("./palin");
+	FILE *file = fopen(input, "r");
+	if(file == NULL) { //error message if input file fails to open
+		perror("Invalid input");
+		return -1;
+	}
+
+	int arrSize = totalChild * 80; //finds size of array needed
+	char sArr[arrSize]; //creates array of needed size for all input line
+	int j;
+	int count = 1;
+
+	j = -1;
+	do { //gets all required lines into single array
+		j++;
+		sArr[j] = fgetc(file);
+		if(sArr[j] == '\n') { //detects end of line
+			if(count == totalChild) {
+				sArr[j] = '\0'; //inserts null at end of array
+			}
+			count++;
+		}
+	}while(sArr[j] != EOF && count <= totalChild);
+	fclose(file);
+
+
+	char* palin = "./palin";
+	pid_t pid = fork();
+	if(pid < 0) {
+		perror("fork failed");
+		exit(1);
+	}
+	else if(pid == 0) { //child
+		char arr[80];
+		int i = -1;
+
+		do { //gets line of input file
+			i++;
+			arr[i] = sArr[i];
+			if(arr[i] == '\n') {
+				arr[i] = '\0'; //inserts null character instead of end of line
+			}
+		}while(arr[i] != '\0' && i < 80);
+
+		printf("Executing child\n");
+		execvp(palin, arr); //DOES NOT WORK
+		return 0;
+	}
+
+	printf("Parent is waiting\n");
+	wait(NULL);
 
 	printf("ENDING MASTER\n");
 
 	return 0;
 }
+
+
+

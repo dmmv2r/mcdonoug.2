@@ -1,16 +1,15 @@
-all: master palin
+C = gcc
+CFLAGS = -Wall -g
 
-mcdonoug.2: master.o
-	gcc -Wall -g master.o -o master
+TARGETS = master palin
 
-master.o: master.c
-	gcc -Wall -g -c master.c
+all: $(TARGETS)
 
-mcdonoug.2: palin.o
-	gcc -Wall -g palin.o -o palin
+master: master.o
+	$(C) $(CFLAGS) -o $@ master.o
 
-palin.o: palin.c
-	gcc -Wall -g -c palin.c
+palin: palin.o
+	$(C) $(CFLAGS) -o $@ palin.o
 
 clean:
-	rm -rf *o mcdonoug.2 master palin
+	rm -rf *.o $(TARGETS) 
